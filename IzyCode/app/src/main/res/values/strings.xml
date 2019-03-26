@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">IzyCode</string>
+    <string name="mainButton_takePicture">Prendre une photo</string>
+    <string name="mainButton_createIzyCode">Créer un IzyCode</string>
 </resources>
