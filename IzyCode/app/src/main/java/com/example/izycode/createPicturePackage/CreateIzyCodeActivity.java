@@ -1,8 +1,6 @@
-package com.example.izycode.createPicture;
+package com.example.izycode.createPicturePackage;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.izycode.R;

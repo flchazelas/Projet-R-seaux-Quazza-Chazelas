@@ -21,8 +21,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".createPicture.CreateIzyCodeActivity"/>
-        <activity android:name=".analysePicture.TakePictureActivity"/>
+        <activity android:name=".createPicturePackage.CreateIzyCodeActivity"/>
+        <activity android:name=".analysePicturePackage.TakePictureActivity"/>
 
     </application>
 

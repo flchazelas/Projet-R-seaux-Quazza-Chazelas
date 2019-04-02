@@ -1,4 +1,4 @@
-package com.example.izycode.analysePicture;
+package com.example.izycode.analysePicturePackage;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
