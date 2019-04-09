@@ -11,11 +11,11 @@ public class IzyBit {
     private boolean []bitUnit;
 
     //initialize bitUnit to an array of 8 bits(represented by booleans)
-    public IzyBit(){
+    IzyBit(){
         this.bitUnit = new boolean[8];
     }
 
-    public boolean[] getBitUnit(){
+    boolean[] getBitUnit(){
         return this.bitUnit;
     }
 
@@ -25,7 +25,7 @@ public class IzyBit {
 
     //set unitBit to contain the binary representation
     //of a char(letter)
-    public void setBitUnit(char letter){
+    void setBitUnit(char letter){
         //contains the ASCII code of the char
         byte byteLetter = (byte) letter;
         this.letter = letter;
@@ -37,14 +37,14 @@ public class IzyBit {
             //boolean array to represent 0 bit
             //else we store true to represent 1 bit
             this.bitUnit[inc] =
-                    (byteLetter % 2 == 0) ? false : true;
+                    (byteLetter % 2 !=0);
 
             byteLetter = (byte) (byteLetter / 2);
             inc--;
         }
     }
 
-    public IzyBit[] createMatrix(byte size){
+    IzyBit[] createMatrix(byte size){
         IzyBit[] array = new IzyBit[size];
 
         for(byte i = 0; i < size; i++){
@@ -55,10 +55,10 @@ public class IzyBit {
     }
 
 
-    public void printBinaryVersion(){
+    void printBinaryVersion(){
         for(boolean bit : bitUnit){
             System.out.print(
-                    bit == false ? 0 : 1
+                    !bit ? 0 : 1
             );
         }
     }
