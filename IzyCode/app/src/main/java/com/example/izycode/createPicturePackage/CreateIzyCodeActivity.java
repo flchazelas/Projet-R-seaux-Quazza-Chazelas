@@ -186,6 +186,16 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
 
         while((arrayLine < izyCodeArraySize - 3) && (bitmapLine <= END_ZONE1_BOTTOM) && (bitmapColumn <= END_ZONE1_RIGHT)){
 
+            if(bitmapLine >= END_ZONE1_BOTTOM){
+                bitmapLine = BEGIN_ZONE1_TOP;
+                bitmapColumn += pixelSize;
+            }
+
+            if(bitmapColumn >= END_ZONE1_RIGHT){
+                bitmapColumn = BEGIN_ZONE1_LEFT;
+                bitmapLine += pixelSize;
+            }
+
             if(temp[arrayLine][arrayColumn] == 1){
                 drawPixel(izyCodeBitmap, 1, bitmapLine, bitmapColumn);
             }
@@ -199,23 +209,13 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
                 arrayLine += 1;
             }
 
-            if(bitmapLine >= END_ZONE1_BOTTOM && bitmapColumn < END_ZONE1_RIGHT){
-                bitmapLine = BEGIN_ZONE1_TOP;
-                bitmapColumn += pixelSize;
-            }
-
-            if(bitmapColumn >= END_ZONE1_RIGHT && bitmapLine < END_ZONE1_BOTTOM){
-                bitmapColumn = BEGIN_ZONE1_LEFT;
-                bitmapLine += pixelSize;
-            }
-
             /*else if(bitmapColumn >= END_ZONE1_RIGHT){
                 bitmapLine += pixelSize;
                 bitmapColumn = BEGIN_ZONE1_LEFT;
             }*/
         }
 
-        if((arrayLine < (izyCodeArraySize - 3)) && bitmapLine >= END_ZONE1_BOTTOM && bitmapColumn >= END_ZONE1_RIGHT){
+        if((arrayLine < (izyCodeArraySize - 3))/*bitmapLine >= END_ZONE1_BOTTOM && bitmapColumn >= END_ZONE1_RIGHT*/){
             bitmapColumn = BEGIN_ZONE2_LEFT;
             bitmapLine = BEGIN_ZONE2_TOP;
 
