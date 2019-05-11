@@ -35,7 +35,7 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
     // definition of dimensions of each zone
     //zone1
     final int BEGIN_ZONE1_LEFT = borderSize;
-    final int END_ZONE1_RIGHT = 224 + borderSize;
+    final int END_ZONE1_RIGHT = borderSize + 224;
     final int BEGIN_ZONE1_TOP = borderSize;
     final int END_ZONE1_BOTTOM = borderSize+384;
 
@@ -105,7 +105,9 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
                     izyCodeArray.fillIzyCode(sentence);
                     izyCodeArraySize = izyCodeArray.getIzyCodeSize();
 
-                    if(izyCodeArraySize < 57){
+                    Log.i("taille ", String.valueOf(izyCodeArraySize));
+
+                    if(izyCodeArraySize < 60){
                         pixelSize = 16;
 
                         //45 char because the small_zone1 is physically(without border)
@@ -113,24 +115,15 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
                         //So 224/16 = 14 bits larger(14 squares)
                         // and 384/16 = 24 bits high => 24/8 = 3 bytes high(3 char)
                         // and 3*14 = 42 char in the zone 1 (+ 3 for the numer of char) etc...
-                        if(izyCodeArraySize <= 45){
-                            completeIzycode( izyCodeArraySize);
-                        }
 
-                        else {
-                            completeIzycode( izyCodeArraySize);
-                        }
+                        completeIzycode( izyCodeArraySize);
+
                     }
 
                     else if( izyCodeArraySize <= 224){
                         pixelSize = 8;
 
-                        if(izyCodeArraySize <= 171){
-                            completeIzycode(izyCodeArraySize);
-                        }
-                        else {
-                            completeIzycode(izyCodeArraySize);
-                        }
+                        completeIzycode(izyCodeArraySize);
                     }
 
 
@@ -191,7 +184,7 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
 
         int arrayLine = 0, arrayColumn = 0, bitmapLine = BEGIN_ZONE1_LEFT, bitmapColumn = BEGIN_ZONE1_TOP;
 
-        while((arrayLine < izyCodeArraySize - 3) && (bitmapLine <= END_ZONE1_BOTTOM) && (bitmapColumn <= END_ZONE2_RIGHT)){
+        while((arrayLine < izyCodeArraySize - 3) && (bitmapLine <= END_ZONE1_BOTTOM) && (bitmapColumn <= END_ZONE1_RIGHT)){
 
             if(temp[arrayLine][arrayColumn] == 1){
                 drawPixel(izyCodeBitmap, 1, bitmapLine, bitmapColumn);
@@ -200,48 +193,20 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
             bitmapLine += pixelSize;
 
             arrayColumn += 1;
+
             if(arrayColumn == temp[arrayLine].length){
                 arrayColumn = 0;
                 arrayLine += 1;
             }
-
-            Log.i("line ",String.valueOf(bitmapLine));
-
-            Log.i("column ",String.valueOf(bitmapColumn));
 
             if(bitmapLine >= END_ZONE1_BOTTOM && bitmapColumn < END_ZONE1_RIGHT){
                 bitmapLine = BEGIN_ZONE1_TOP;
                 bitmapColumn += pixelSize;
             }
 
-            if (bitmapLine >= END_ZONE1_BOTTOM && bitmapColumn >= END_ZONE1_RIGHT){
-                bitmapColumn = BEGIN_ZONE2_LEFT;
-                bitmapLine = BEGIN_ZONE2_TOP;
-                Log.i("test", "i'm here");
-
-                while((arrayLine < izyCodeArraySize - 3) && (bitmapLine < END_ZONE2_BOTTOM) && (bitmapColumn < END_ZONE2_RIGHT)){
-                    if(temp[arrayLine][arrayColumn] == 1){
-                        drawPixel(izyCodeBitmap, 1, bitmapLine, bitmapColumn);
-                    }
-
-                    arrayColumn += 1;
-                    bitmapColumn += pixelSize;
-
-                    if(arrayColumn == temp[arrayLine].length){
-                        arrayColumn = 0;
-                        arrayLine += 1;
-                    }
-
-                    if(bitmapColumn > bitmapWidth - borderSize){
-                        bitmapColumn = 256;
-                        bitmapLine += pixelSize;
-
-                        if(bitmapLine > 224 + borderSize){
-                            bitmapColumn += pixelSize;
-                            bitmapLine = borderSize;
-                        }
-                    }
-                }
+            if(bitmapColumn >= END_ZONE1_RIGHT && bitmapLine < END_ZONE1_BOTTOM){
+                bitmapColumn = BEGIN_ZONE1_LEFT;
+                bitmapLine += pixelSize;
             }
 
             /*else if(bitmapColumn >= END_ZONE1_RIGHT){
@@ -249,6 +214,36 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
                 bitmapColumn = BEGIN_ZONE1_LEFT;
             }*/
         }
+
+        if((arrayLine < (izyCodeArraySize - 3)) && bitmapLine >= END_ZONE1_BOTTOM && bitmapColumn >= END_ZONE1_RIGHT){
+            bitmapColumn = BEGIN_ZONE2_LEFT;
+            bitmapLine = BEGIN_ZONE2_TOP;
+
+            while ((arrayLine < izyCodeArraySize - 3) && (bitmapLine < END_ZONE2_BOTTOM) && (bitmapColumn < END_ZONE2_RIGHT)) {
+                if (temp[arrayLine][arrayColumn] == 1) {
+                    drawPixel(izyCodeBitmap, 1, bitmapLine, bitmapColumn);
+                }
+                arrayColumn += 1;
+                bitmapColumn += pixelSize;
+                if (arrayColumn == temp[arrayLine].length) {
+                    arrayColumn = 0;
+                    arrayLine += 1;
+                }
+
+                if (bitmapColumn > END_ZONE2_RIGHT) {
+                    bitmapColumn = BEGIN_ZONE2_LEFT;
+                    bitmapLine += pixelSize;
+
+                    if (bitmapLine > END_ZONE2_BOTTOM) {
+                        bitmapColumn += pixelSize;
+                        bitmapLine = borderSize;
+                    }
+                }
+            }
+        }
+
+
+
 
         /*if(bitmapLine < 224-borderSize && bitmapColumn < bitmapColumn-borderSize){
             Random randomGenerator = new Random();
@@ -306,8 +301,8 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
                 //borderside
                 if (        ((height >= 0) && (height < borderSize))
                         || ((width >= 0) && (width < borderSize))
-                        || ((height > ((bitmapHeight) - borderSize)) && (height < bitmapHeight))
-                        || ((width > ((bitmapWidth) - borderSize)) && (width < bitmapWidth))
+                        || ((height > ((bitmapHeight) - borderSize)) && (height <= bitmapHeight))
+                        || ((width > ((bitmapWidth) - borderSize)) && (width <= bitmapWidth))
                 ){
                     drawPixel(izyCode,2, width, height);
                 }
@@ -327,9 +322,9 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
                         || ((height >= END_ZONE2_BOTTOM) && (height < END_ZONE2_BOTTOM + borderSize) && (width >= BEGIN_ZONE2_LEFT - borderSize)) // line 3
                         || ((height >= BEGIN_ZONE3_TOP - borderSize) && (height < BEGIN_ZONE3_TOP) && (width >= BEGIN_ZONE3_LEFT - borderSize)) // line4
                         || ((width >= BEGIN_ZONE3_LEFT - borderSize) && (width < BEGIN_ZONE3_LEFT) && height >= BEGIN_ZONE3_TOP - borderSize) //line 5
-                ){
+               ){
                     drawPixel(izyCode,2, height, width);
-                }
+               }
 
                 //store the size of a pixel in the izycode
                 switch (pixelSize){
@@ -342,6 +337,10 @@ public class CreateIzyCodeActivity extends AppCompatActivity {
                         if((width >= 328) &&  (width < 328 + borderSize) && (height >= 232+borderSize) && (height < 232 + borderSize*2)) {
                             drawPixel(izyCode, 1, height, width);
                         }
+                        break;
+                    case 4:
+
+                        break;
                 }
             }
         }
