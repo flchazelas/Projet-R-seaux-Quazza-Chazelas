@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.izycode.analysePicturePackage.TakePictureActivity;
+import com.example.izycode.createPicturePackage.CreateIzyCodeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button takePictureButton = null;
-    private Button createIzyCodeButton = null;
+    Button createIzyCodeButton;
 
 
     @Override
@@ -19,18 +18,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        takePictureButton = findViewById(R.id.mainButton_takePicture);
         createIzyCodeButton = findViewById(R.id.mainButton_createIzyCode);
 
-        takePictureButton.setOnClickListener(new View.OnClickListener() {
+        createIzyCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startTakePictureActivity = new Intent(MainActivity.this, TakePictureActivity.class);
+                Intent startCreateIzyCodeActivity = new Intent(MainActivity.this, CreateIzyCodeActivity.class);
 
-                startActivity(startTakePictureActivity);
+                startActivity(startCreateIzyCodeActivity);
             }
         });
-
     }
 
 

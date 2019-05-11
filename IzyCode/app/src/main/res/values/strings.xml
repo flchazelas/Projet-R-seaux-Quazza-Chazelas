@@ -2,4 +2,7 @@
     <string name="app_name">IzyCode</string>
     <string name="mainButton_takePicture">Prendre une photo</string>
     <string name="mainButton_createIzyCode">Créer un IzyCode</string>
+    <string name="obtainIzyCode_button">Obtenir l\'Izycode</string>
+    <string name="resetIzyCodeButton">Réinitialiser</string>
+    <string name="editText_text">Entrez ici le texte à convertir</string>
 </resources>
